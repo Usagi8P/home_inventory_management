@@ -5,3 +5,9 @@ CREATE TABLE inventory(
     item TEXT UNIQUE NOT NULL,
     amount INTEGER NOT NULL
 );
+
+CREATE TABLE shopping_list(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item TEXT UNIQUE NOT NULL,
+    amount INTEGER NOT NULL
+);

@@ -2,40 +2,39 @@
     <link href="{{ url_for('static', filename='build.css')}}" rel="stylesheet">
 </head>
 
-
 {% block header %}
     <div class="text-xl font-bold p-3">
         Home Inventory Manager
     </div>
     <div class="p-3 flex text-lg font-bold">
-        <div class="pr-3 underline">
-            Inventory
+        <div class="pr-3">
+            <a href="{{ url_for('view_inventory.inventory')}}" class="hover:underline cursor-pointer">
+                Inventory
+            </a>
         </div>
         <div class="pr-3">
             |
         </div>
-        <div class="pr-3">
-            <a href="{{ url_for('shopping_list.shopping_list')}}" class="hover:underline cursor-pointer">
-                Shopping List
-            </a>
+        <div class="pr-3 underline">
+            Shopping List
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
     <div class="flex p-3">
-        <form action="{{ url_for('manage_inventory.add_entry')}}" method="post">
+        <form action="{{ url_for('shopping_list.add_entry')}}" method="post">
             <input name="item" id="item" required class="border-solid border-2 border-blue-400 rounded flex-auto w-56">
             <input name="amount" id="amount" type="number" value="1" required class="border-solid border-2 border-blue-400 rounded w-14 flex-none">
-            <input type="submit" value="Add to inventory" class="bg-blue-400 rounded-lg p-1 hover:scale-105 cursor-pointer flex-auto w-44">
+            <input type="submit" value="Add to shopping list" class="bg-blue-400 rounded-lg p-1 hover:scale-105 cursor-pointer flex-auto w-44">
         </form>
     </div>
 
     {% if not inventory %}
-        <div>
-            <div>Your inventory is empty.</div>
+        <div class="p-3">
+            <div>Your shopping list is empty.</div>
             <div>Add something.</div>
-        </div>
+        </div>    
     {% endif %}
 
     {% if inventory %}
@@ -48,9 +47,9 @@
             </div>
             <div class="flex-none w-7"></div>
             <div class="flex-none w-7"></div>
-            <div class="flex-none w-36"></div>
+            <div class="flex-none w-28"></div>
             <div class="flex-none w-26"></div>
-        </div>    
+        </div>
     {% endif %}
     <div>
         {% for item in inventory %}
@@ -62,22 +61,22 @@
                     {{ item['Amount'] }}
                 </div>
                 <div class="flex-none w-7">
-                    <form action="{{ url_for('manage_inventory.increase_amount', id=item['id'])}}" method="post">
+                    <form action="{{ url_for('shopping_list.increase_amount', id=item['id'])}}" method="post">
                         <input type="submit" value="+" class="font-bold px-1 bg-blue-400 rounded-lg hover:scale-105 cursor-pointer">
-                      </form>
+                    </form>
                 </div>
                 <div class="flex-none w-7">
-                    <form action="{{ url_for('manage_inventory.decrease_amount', id=item['id'])}}" method="post">
+                    <form action="{{ url_for('shopping_list.decrease_amount', id=item['id'])}}" method="post">
                         <input type="submit" value="-" class="font-bold px-1 bg-blue-400 rounded-lg hover:scale-105 cursor-pointer">
                     </form>
                 </div>
-                <div class="flex-none w-36">
-                    <form action="{{ url_for('manage_inventory.add_to_shopping_list', id=item['id'])}}" method="post">
-                        <input type="submit" value="To Shopping List" class="bg-blue-400 rounded-lg px-1 hover:scale-105 cursor-pointer">
+                <div class="flex-none w-28">
+                    <form action="{{ url_for('shopping_list.add_to_inventory', id=item['id'])}}" method="post">
+                        <input type="submit" value="To Inventory" class="bg-blue-400 rounded-lg px-1 hover:scale-105 cursor-pointer">
                     </form>
                 </div>
                 <div class="flex-none w-26">
-                    <form action="{{ url_for('manage_inventory.delete_item', id=item['id'])}}" method="post">
+                    <form action="{{ url_for('shopping_list.delete_item', id=item['id'])}}" method="post">
                         <input type="submit" value="Remove" class="bg-blue-400 rounded-lg px-1 hover:scale-105 cursor-pointer">
                     </form>
                 </div>

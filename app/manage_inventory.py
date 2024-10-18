@@ -1,4 +1,4 @@
-from flask import (Blueprint, redirect, render_template, request, flash)
+from flask import (Blueprint, redirect, render_template, request, flash, url_for)
 from app.db import get_db
 
 bp = Blueprint('manage_inventory', __name__)
@@ -24,6 +24,7 @@ def add_entry():
             (item, amount)
         )
         db.commit()
+
         return redirect('/')
 
     return redirect('/')
@@ -51,6 +52,7 @@ def increase_amount(id):
                 (id,)
             )
         db.commit()
+
         return redirect('/')
 
     return redirect('/')
@@ -74,6 +76,7 @@ def decrease_amount(id):
                 (id,)
             )
         db.commit()
+
         return redirect('/')
 
     return redirect('/')
@@ -96,6 +99,32 @@ def delete_item(id):
                 (id,)
             )
         db.commit()
+
         return redirect('/')
 
+    return redirect('/')
+
+@bp.route('/<int:id>/add_to_shopping_list', methods=['POST'])
+def add_to_shopping_list(id):
+    id = id
+    error = None
+
+    if not id:
+        error = "Item does not exist. Reload page."
+
+    if error is not None:
+        flash(error)
+    else:
+        db = get_db()
+        db.execute(
+                'INSERT INTO shopping_list (item, amount)'
+                'SELECT item, 1 FROM inventory'
+                ' WHERE id = ?',
+                (id,)
+            )
+        
+        db.commit()
+
+        return redirect('/')
+    
     return redirect('/')

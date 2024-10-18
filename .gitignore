@@ -1,3 +1,7 @@
 /.venv
 */__pycache__
 /instance
+/node_modules
+/app/static/input.css
+/app/static/output.css
+package

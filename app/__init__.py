@@ -40,6 +40,9 @@ def create_app(test_config=None):
     from . import manage_inventory
     app.register_blueprint(manage_inventory.bp)
 
+    from . import shopping_list
+    app.register_blueprint(shopping_list.bp)
+
     @app.route('/hello')
     def hello():
         return 'Hello World!'

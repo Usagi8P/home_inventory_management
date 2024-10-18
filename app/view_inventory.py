@@ -10,4 +10,5 @@ def inventory():
     inventory = db.execute(
         'SELECT id, item, amount FROM inventory'
     ).fetchall()
+    
     return render_template('index.html',inventory=inventory)
