@@ -1,0 +1,33 @@
+<head>
+    <link href="{{ url_for('static', filename='build.css')}}" rel="stylesheet">
+</head>
+
+
+{% block header %}
+    <div class="text-xl font-bold p-3">
+        Home Inventory Manager
+    </div>
+    <div class="p-3 flex text-lg font-bold">
+        <div class="pr-3">
+            <a href="{{ url_for('auth.login')}}" class="hover:underline cursor-pointer">
+                Login
+            </a>
+        </div>
+        <div class="pr-3">
+            |
+        </div>
+        <div class="pr-3 underline">
+            Register
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" required class="border-solid border-2 border-blue-400 rounded flex-auto w-56">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required class="border-solid border-2 border-blue-400 rounded flex-auto w-56">
+    <input type="submit" value="Register" class="bg-blue-400 rounded-lg p-1 hover:scale-105 cursor-pointer flex-auto w-44">
+  </form>
+{% endblock %}

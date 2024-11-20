@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, url_for
 import os
 # from dotenv import load_dotenv
 
@@ -32,8 +32,11 @@ def create_app(test_config=None):
 
     @app.route('/')
     def root():
-        return redirect('/inventory')
+        return redirect(url_for('auth.login'))
     
+    from . import auth
+    app.register_blueprint(auth.bp)
+
     from . import view_inventory
     app.register_blueprint(view_inventory.bp)
 

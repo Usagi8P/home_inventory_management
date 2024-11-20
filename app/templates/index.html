@@ -4,8 +4,13 @@
 
 
 {% block header %}
-    <div class="text-xl font-bold p-3">
-        Home Inventory Manager
+    <div>
+        <div class="p-3">
+            <a href="{{ url_for('auth.logout') }}" class="hover:underline cursor-pointer">Log Out</a>
+        </div>
+        <div class="text-xl font-bold p-3">
+            Home Inventory Manager
+        </div>
     </div>
     <div class="p-3 flex text-lg font-bold">
         <div class="pr-3 underline">

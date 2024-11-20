@@ -1,19 +1,24 @@
-from flask import (Blueprint, redirect, render_template, request, flash, url_for)
+from flask import (Blueprint, redirect, render_template, request, flash, url_for, g)
+from app.auth import login_required
 from app.db import get_db
 
 
-bp = Blueprint('shopping_list', __name__)
+bp = Blueprint('shopping_list', __name__, url_prefix='/shopping_list')
 
-@bp.route('/shopping_list', methods=['GET'])
+@bp.route('',methods=['GET'])
+@login_required
 def shopping_list():
     db = get_db()
     shopping_list = db.execute(
-        'SELECT id, item, amount FROM shopping_list'
+        'SELECT id, item, amount, user_id' 
+        ' FROM shopping_list'
+        ' WHERE user_id = ?', (g.user['id'],)
     ).fetchall()
 
     return render_template('shopping_list.html',inventory=shopping_list)
 
-@bp.route('/shopping_list/add_entry', methods=['POST'])
+@bp.route('/add_entry', methods=['POST'])
+@login_required
 def add_entry():
     item = request.form['item']
     amount = request.form['amount']
@@ -39,11 +44,12 @@ def add_entry():
 
     return redirect(url_for('shopping_list.shopping_list'))
 
-@bp.route('/shopping_list/update_amount', methods=['POST'])
+@bp.route('/update_amount', methods=['POST'])
 def update_amount():
     pass
 
-@bp.route('/shopping_list/<int:id>/increase_amount', methods=['POST'])
+@bp.route('/<int:id>/increase_amount', methods=['POST'])
+@login_required
 def increase_amount(id):
     id = id
     error = None
@@ -67,7 +73,8 @@ def increase_amount(id):
 
     return redirect(url_for('shopping_list.shopping_list'))
 
-@bp.route('/shopping_list/<int:id>/decrease_amount', methods=['POST'])
+@bp.route('/<int:id>/decrease_amount', methods=['POST'])
+@login_required
 def decrease_amount(id):
     id = id
     error = None
@@ -91,7 +98,8 @@ def decrease_amount(id):
 
     return redirect(url_for('shopping_list.shopping_list'))
 
-@bp.route('/shopping_list/<int:id>/delete_item', methods=['POST'])
+@bp.route('/<int:id>/delete_item', methods=['POST'])
+@login_required
 def delete_item(id):
     id = id
     error = None
@@ -114,7 +122,8 @@ def delete_item(id):
 
     return redirect(url_for('shopping_list.shopping_list'))
 
-@bp.route('/shopping_list/<int:id>/add_to_inventory', methods=['POST'])
+@bp.route('/<int:id>/add_to_inventory', methods=['POST'])
+@login_required
 def add_to_inventory(id):
     id = id
     error = None
@@ -127,8 +136,8 @@ def add_to_inventory(id):
     else:
         db = get_db()
         db.execute(
-                'INSERT INTO inventory (item, amount)'
-                'SELECT item, amount FROM shopping_list'
+                'INSERT INTO inventory (item, amount, user_id)'
+                'SELECT item, amount, user_id FROM shopping_list'
                 ' WHERE id = ?'
                 'ON CONFLICT(item) DO UPDATE SET amount = amount + excluded.amount',
                 (id,)
