@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template, redirect, url_for
 import os
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 def create_app(test_config=None):
-    # load_dotenv()
+    load_dotenv()
     app = Flask(__name__, instance_relative_config=True,
                 static_folder='static',
                 template_folder='templates')
