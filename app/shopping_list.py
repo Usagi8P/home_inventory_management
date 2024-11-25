@@ -34,9 +34,9 @@ def add_entry():
     else:
         db = get_db()
         db.execute(
-            'INSERT INTO shopping_list (item, amount)'
-            'VALUES (?,?)',
-            (item, amount)
+            'INSERT INTO shopping_list (item, amount, user_id)'
+            'VALUES (?,?,?)',
+            (item, amount, g.user['id'])
         )
         db.commit()
 
