@@ -14,7 +14,8 @@ CREATE TABLE inventory(
     user_id INTEGER NOT NULL,
     item TEXT NOT NULL,
     amount INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    UNIQUE (user_id, item)
 );
 
 CREATE TABLE shopping_list(
@@ -22,5 +23,6 @@ CREATE TABLE shopping_list(
     user_id INTEGER NOT NULL,
     item TEXT NOT NULL,
     amount INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    UNIQUE (user_id, item)
 );

@@ -125,7 +125,8 @@ def add_to_shopping_list(id):
         db.execute(
                 'INSERT INTO shopping_list (item, amount, user_id)'
                 'SELECT item, 1, user_id FROM inventory'
-                ' WHERE id = ?',
+                ' WHERE id = ?'
+                'ON CONFLICT(user_id, item) DO UPDATE SET amount = amount + 1',
                 (id,)
             )
         

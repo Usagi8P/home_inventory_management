@@ -139,7 +139,7 @@ def add_to_inventory(id):
                 'INSERT INTO inventory (item, amount, user_id)'
                 'SELECT item, amount, user_id FROM shopping_list'
                 ' WHERE id = ?'
-                'ON CONFLICT(item) DO UPDATE SET amount = amount + excluded.amount',
+                'ON CONFLICT(user_id, item) DO UPDATE SET amount = amount + excluded.amount',
                 (id,)
             )
         
