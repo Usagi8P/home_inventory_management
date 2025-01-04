@@ -35,7 +35,8 @@ def add_entry():
         db = get_db()
         db.execute(
             'INSERT INTO shopping_list (item, amount, user_id)'
-            'VALUES (?,?,?)',
+            'VALUES (?,?,?)'
+            'ON CONFLICT(user_id, item) DO UPDATE SET amount = amount + excluded.amount',
             (item, amount, g.user['id'])
         )
         db.commit()
